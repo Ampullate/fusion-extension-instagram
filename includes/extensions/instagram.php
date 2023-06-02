@@ -12,7 +12,7 @@
  */
 
 /**
- * Map Shortcode
+ * Instagram Shortcode
  */
 
 add_action('init', 'fsn_init_instagram', 12);
@@ -21,6 +21,11 @@ function fsn_init_instagram() {
 	if (function_exists('fsn_map')) {
 
 		$instagram_params = array(
+			array(
+				'type' => 'text',
+				'param_name' => 'instagram_shortcode',
+				'label' => __('Instagram Shortcode', 'ampullate-fusion-extension-instagram'),
+			),
 			array(
 				'type' => 'text',
 				'param_name' => 'instagram_name',
@@ -34,7 +39,7 @@ function fsn_init_instagram() {
 		fsn_map(array(
 			'name' => __('Instagram', 'ampullate-fusion-extension-instagram'),
 			'shortcode_tag' => 'fsn_instagram',
-			'description' => __('Add Instagram feed. Instagram feeds by user name are supported.', 'ampullate-fusion-extension-instagram'),
+			'description' => __('Add Instagram feed. Instagram feeds by user name are deprecated and shortcodes of type [instagram-feed feed="x"] should now be used.', 'ampullate-fusion-extension-instagram'),
 			'icon' => 'photo',
 			'disable_style_params' => array('text_align','text_align_xs','font_size','color'),
 			'params' => $instagram_params
@@ -42,71 +47,37 @@ function fsn_init_instagram() {
 	}
 }
 
-function get_filtered_instagram_feed_options($options_provided=[]) {
-	$options_provided['type'] = 'user';
-// 	$options_provided['layout'] = 'carousel';
-// 	$options_provided['carouselrows'] = 1;
-// 	$options_provided['imagepadding'] = 0;
-// 	$options_provided['cols'] = 4;
-// 	$options_provided['num'] = 6;
-// 	$options_provided['mobilecols'] = 2;
-// 	$options_provided['mobilenum'] = 4;
-
-	$filtered_imploded_options = [];
-	foreach ($options_provided as $key=>$value) {
-		$filtered_imploded_options[] = $key . '=' . $value;
-	}
-	return $filtered_imploded_options;
-}
-
 /**
  * Output Shortcode
  */
-
 function fsn_instagram_shortcode( $atts, $content ) {
 	extract( shortcode_atts( array(
 		'instagram_name' => '',
+		'instagram_shortcode' => ''
 	), $atts ) );
-
+	$instagram_shortcode = trim($instagram_shortcode);
 	$instagram_name = trim($instagram_name);
 
-	//plugin
-	wp_enqueue_script('fsn_instagram');
-
-	$shortcode_start_marker = '[instagram-feed ';
-	if ($instagram_name) {
-		$filtered_instagram_feed_options = get_filtered_instagram_feed_options(['user'=>"'$instagram_name'"]);
-	} else {
-		$filtered_instagram_feed_options = get_filtered_instagram_feed_options([]);
-	}
-	$instagram_shortcode = $shortcode_start_marker . implode(' ', $filtered_instagram_feed_options) . ']';
-	$instagram_feed = do_shortcode($instagram_shortcode);
-
-	$output = '';
-
-	$output .= '<div class="fsn-instagram '. esc_attr($instagram_name ? $instagram_name : 'default-feed') .' '. fsn_style_params_class($atts) .'">';
-	//action executed before the instagram output
-	ob_start();
-	do_action('fsn_before_instagram', $atts);
-	$output .= ob_get_clean();
-
 	$instagram_id = uniqid();
-
+	$output = '';
+	$output .= '<div class="fsn-instagram '. fsn_style_params_class($atts) .'">';
 	$output .= '	<div class="embed-container">';
 	$output .= '		<div id="instagram_'. esc_attr($instagram_id) .'" class="instagram-js vjs-default-skin">';
-	$output .= '			' . $instagram_feed;
+
+	if (!$instagram_shortcode) {
+		$output .= '			[instagram-feed type="user" user="' . $instagram_name . '"]';
+	} else {
+		extract( shortcode_atts( array(
+			'feed' => '',
+		), $atts ) );
+		$feed = preg_replace('/["\']/', '', $feed);
+		$output .= '			[instagram-feed feed=' . $feed . ']';
+	}
+
 	$output .= '		</div>';
 	$output .= '	</div>';
-
-	//action executed after the instagram output
-	ob_start();
-	do_action('fsn_after_instagram', $atts);
-	$output .= ob_get_clean();
-
 	$output .= '</div>';
 
-	return $output;
+	return do_shortcode($output, false);
 }
 add_shortcode('fsn_instagram', 'fsn_instagram_shortcode');
-
-?>

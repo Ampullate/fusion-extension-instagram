@@ -6,8 +6,8 @@
 /**
  * Plugin Name: Fusion : Extension - Instagram (by Ampullate)
  * Plugin URI: https://ampullate.com/wordpress-plugins/ampullate-fusion-extension-instagram
- * Description: Instagram Extension Package for Fusion. Requires <a href="https://wordpress.org/plugins/instagram-feed/" taget="_blank">Instagram Feed</a> or <a href="https://smashballoon.com/instagram-feed/s" taget="_blank">Instagram Feed Pro</a> to be installed, activated and configured for the feeds desired.
- * Version: 1.0.0
+ * Description: Instagram Extension Package for Fusion. Requires <a href="https://wordpress.org/plugins/instagram-feed/" taget="_blank">Instagram Feed v6+</a> or <a href="https://smashballoon.com/instagram-feed/s" taget="_blank">Instagram Feed Pro v6+</a> to be installed, activated and configured for the feeds desired.
+ * Version: 2.0.0
  * Author: Ampullate Inc.
  * Author URI: http://ampullate.com
  * Text Domain: ampullate-fusion-extension-instagram
@@ -15,7 +15,7 @@
  * License: GPL2
  */
 
-define('AMP_FUSION_EXTN_INSTAGRAM_VERSION', '1.0.0');
+define('AMP_FUSION_EXTN_INSTAGRAM_VERSION', '2.0.0');
 
 /**
  * FusionExtensionInstagram class.
@@ -68,5 +68,3 @@ $fsn_extension_instagram = new FusionExtensionInstagram();
 
 //Instagram
 require_once('includes/extensions/instagram.php');
-
-?>

@@ -3,7 +3,7 @@ Contributors: delwinv
 Tags: admin, custom, builder, page builder, layout builder, layout, page, columns, multi-column, grid, responsive, shortcode, bootstrap, instagram
 Requires at least: 3.9
 Tested up to: 5.8
-Stable tag: 1.0.0
+Stable tag: 2.0.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,10 +38,16 @@ We have designed the Fusion core plugin to be fast, light, and easily expandable
 
 == Changelog ==
 
+= 2.0.0 =
+* Fusion : Extension - Instagram : support for instagram plugin shortcodes to support new version of Instagram Feed plugin, including Instagram Feed Pro.
+
 = 1.0.0 =
-* Fusion : Extension - Instagram initial launch.
+* Fusion : Extension - Instagram : initial launch.
 
 == Upgrade Notice ==
+
+= 2.0.0 =
+* Support for instagram plugin shortcodes to support new version of Instagram Feed plugin, including Instagram Feed Pro.
 
 = 1.0.0 =
 Initial Launch
